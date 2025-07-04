@@ -1,4 +1,4 @@
-#  TechStax: GitHub Webhook Receiver with MongoDB
+#  TechStax: GitHub Webhook Receiver 
 
 This project listens to GitHub repository webhook events — specifically **Push**, **Pull Request**, and optionally **Merge** — and stores those in a MongoDB database. It includes a simple UI that polls for updates every 15 seconds.
 
