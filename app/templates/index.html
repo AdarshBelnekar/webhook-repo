@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Techstack Project - GitHub Webhook Monitor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f4f8;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #222;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .events-box {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .event {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .event:last-child {
+      border-bottom: none;
+    }
+
+    .push { color: #007bff; }
+    .pull { color: #28a745; }
+    .merge { color: #d63384; }
+
+    .timestamp {
+      font-size: 0.9em;
+      color: #555;
+    }
+
+   
+  </style>
+</head>
+<body>
+
+  <h1><span style="color: red;">Tech</span>Stax Project - GitHub Events</h1>
+  <div class="events-box" id="eventList">Loading events...</div>
+
+  <script>
+    function formatDate(iso) {
+      const date = new Date(iso);
+      return date.toUTCString().replace('GMT', 'UTC');
+    }
+
+    async function loadEvents() {
+      const res = await fetch('/webhook/events');
+      const events = await res.json();
+      const list = document.getElementById('eventList');
+      list.innerHTML = '';
+
+      events.forEach(event => {
+        const { author, action, from_branch, to_branch, timestamp } = event;
+        const timeFormatted = formatDate(timestamp);
+        let message = '';
+        let cssClass = '';
+
+        if (action === 'PUSH') {
+          cssClass = 'push';
+          message = `"${author}" pushed to "${from_branch || to_branch}" on ${timeFormatted}`;
+        } else if (action === 'PULL REQUEST') {
+          cssClass = 'pull';
+          message = `"${author}" submitted a pull request from "${from_branch}" to "${to_branch}" on ${timeFormatted}`;
+        } else if (action === 'MERGE') {
+          cssClass = 'merge';
+          message = `"${author}" merged branch "${from_branch}" to "${to_branch}" on ${timeFormatted}`;
+        }
+
+        const div = document.createElement('div');
+        div.className = `event ${cssClass}`;
+        div.textContent = message;
+        list.appendChild(div);
+      });
+    }
+
+    setInterval(loadEvents, 15000);
+    window.onload = loadEvents;
+  </script>
+
+</body>
+</html>
