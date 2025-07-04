@@ -9,7 +9,7 @@ This project listens to GitHub repository webhook events — specifically **Push
 
 git clone https://github.com/AdarshBelnekar/webhook-repo.git
 ```
-# Create Virtual Environment
+## Create Virtual Environment
 ```bash
 pip install virtualenv
 virtualenv venv
@@ -17,19 +17,19 @@ source venv/bin/activate     # For Linux/Mac
 # OR
 venv\Scripts\activate        # For Windows
 ```
-#  Install Dependencies
+##  Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
-# Configure .env
+## Configure .env
 ```bash
 MONGO_URI=mongodb://localhost:27017/webhook_db
 ```
-# Start the Flask Server
+## Start the Flask Server
 ```bash
 python run.py
 ```
-# GitHub Webhook Setup
+## GitHub Webhook Setup
 **Go to your action-repo on GitHub.**
 
 Navigate to Settings → Webhooks → Add Webhook.
@@ -47,6 +47,9 @@ Push
 Pull requests
 
 Click Add Webhook.
+
+# Author
+Build by Adarsh Belnekar
 
 
 
